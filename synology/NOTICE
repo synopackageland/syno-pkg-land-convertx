@@ -1,0 +1,9 @@
+DSM packaging additions in synology/: Copyright (c) 2026 synopkgland, MIT.
+ConvertX: Copyright its upstream contributors, AGPL-3.0; see
+LICENSES/ConvertX-AGPL-3.0.txt and https://github.com/C4illin/ConvertX/tree/v0.19.0.
+The original upstream UI and code are unchanged. The official image is pulled
+by digest from the upstream registry, not rebuilt or embedded in the SPK.
+Other converter binaries inside that image retain their respective upstream
+licenses; the image itself remains the upstream distribution.
+The CLI/templates and SDK are pinned published releases. The template MIT
+license is included as LICENSES/TEMPLATE.txt. The generated SPK includes the SDK/template notice bundle.
