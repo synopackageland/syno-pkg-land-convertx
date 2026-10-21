@@ -10,7 +10,7 @@
     "gate": "npm test && npm run check && npm run build"
   },
   "devDependencies": {
-    "@synopackageland/cli": "0.21.0",
+    "@synopackageland/cli": "0.22.0",
     "yaml": "2.9.1"
   }
 }
