@@ -3,8 +3,8 @@ services:
   convertx:
     image: c4illin/convertx:v0.19.0@sha256:8590a21a16adb8514a8be55b74ad0112bf58ba772328a53f7b40528fcf8fa013
     user: "${SYNOPKGLAND_UID}:${SYNOPKGLAND_GID}"
-    entrypoint: [/entrypoint.sh]
-    command: [bun, run, dist/src/index.js]
+    entrypoint: [/usr/bin/env, -C, /var/tmp/convertx, /entrypoint.sh]
+    command: [bun, run, /app/dist/src/index.js]
     working_dir: /app
     read_only: true
     cap_drop: [ALL]
@@ -16,14 +16,17 @@ services:
       HTTP_ALLOWED: 'false'
       AUTO_DELETE_EVERY_N_HOURS: '24'
       MAX_CONVERT_PROCESS: '2'
-      HOME: /app/data/home
-      XDG_CACHE_HOME: /app/data/cache
-      XDG_CONFIG_HOME: /app/data/config
+      HOME: /var/tmp/convertx/home
+      XDG_CACHE_HOME: /var/tmp/convertx/cache
+      XDG_CONFIG_HOME: /var/tmp/convertx/config
       USER: convertx
       LOGNAME: convertx
       TZ: UTC
       BRANDING: "ConvertX — shared space / 共用空間（彼此看得到檔案）"
+    volumes: [data:/var/tmp]
     tmpfs:
       - /tmp:rw,nosuid,nodev,size=1073741824,mode=1777
     restart: unless-stopped
     stop_grace_period: 45s
+volumes:
+  data: {}

@@ -1,80 +1,87 @@
-# Validation boundary
+# Validation
 
-This draft has **no SPK and no installed DSM App**. Released-toolchain check is
-successful, but build is explicitly refused with
-`COMPOSE_PRIVATE_BIND_TIMING_UNSUPPORTED`. Do not infer DSM SSO, App permissions,
-lifecycle or storage safety from the upstream-container proof below.
+The published toolchain builds and inspects both 0.19.0-0001 and the 0002
+upgrade fixture. Installed DSM acceptance uses the official pinned image,
+SDK-initialized private named-volume storage, and the package UID.
 
 ## Published inputs
 
 CLI/templates 0.21.0; SDK/App 0.21.0; executor/v0.20.0; template UI 0.12.5.
-No source overrides. Version fields produce the requested 0.19.0-0001 format;
-CLI check accepts version 0.19.0 with build 1. The build fails at the private-bind
-lifecycle guard before an SPK can be emitted or inspected.
+No source overrides. The package targets x86_64, DSM 7.2.1 or later; device
+acceptance was performed on DSM 7.3.2 with Container Manager.
 
 Official image: c4illin/convertx:v0.19.0 at the index digest in image-lock.json.
-The registry manifest/config bytes were checked against their SHA-256 digests;
-both Linux amd64/arm64 config labels identify upstream v0.19.0 and its commit.
-The proposed package targets x86_64 only. amd64 compressed layers total
-1,538,985,762 bytes; Docker image size is 3,828,284,752 bytes. One uncached image
-pull on the designated DSM 7.3.2 machine took 411 seconds. This is an observed
-pull duration, not a completed Package Center installation time.
+Registry manifest/config bytes were checked against their SHA-256 digests;
+both Linux amd64/arm64 config labels identify the upstream release commit.
+Compressed amd64 layers total 1,538,985,762 bytes; Docker image size is
+3,828,284,752 bytes. An uncached device image pull took 411 seconds. A later
+cached-image 0001 installation took 95 seconds, followed by successful start.
+These measurements are separate; an uncached Package Center install was not timed.
 
-## Checks
+The test network denies direct Docker Hub registry checks even though its
+existing image mirror can pull the pinned image. Lifecycle hooks reported
+COMPOSE_IMAGE_DENIED without failing installation or start when the digest was
+already cached. Build used verified registry metadata through the existing
+mirror and a disposable TLS transport relay. No NAS mirror, CA or daemon
+settings were changed. This does not prove uncached installation on every network.
 
-- TDD: contract tests initially fail with missing manifest/Compose/image lock;
-  after implementation, all three pass.
-- Published CLI effective inventory: nonroot package UID placeholder, all
-  capabilities dropped, isolated bridge, no upstream ports, private package
-  bind and read-only SDK initializer mount.
-- Build: expected framework refusal, recorded distinctly from a successful gate.
-- e2e specs: dependency lock and syntax checked on the Linux gate host; execution
-  awaits a buildable installed package. No browser acceptance result is claimed.
+## Installed acceptance
 
-## Upstream nonroot image proof
+- Three contract tests pass. Named-volume and App-privilege changes also have
+  failing-before/passing-after evidence. Published CLI check, build and inspect
+  succeed for the generated SPK.
+- The browser suite passes all four tests: two DSM session setups, main-menu
+  opening/conversions/logout/reopen, and the denied account's gateway 403 with
+  dsm_app_privilege_denied. No second ConvertX password is needed. This is DSM
+  gateway authentication in mode none, not OIDC.
+- Through the installed gateway, PNG to JPEG downloads 300 bytes, a one-second
+  MP4 to WebM downloads 1,187 bytes, and TXT to PDF downloads 13,581 bytes.
+  JPEG/WebM/PDF magic bytes were independently checked.
+- The installed container runs as the package UID with read-only rootfs,
+  ALL capabilities dropped, no-new-privileges and no published upstream ports.
+  Both the private root and data directory are mode 0700.
+- Anonymous requests to home, upload, results and download return 401. Both
+  installed bridges are internal and contain only this App. Outside the NAS,
+  port 3000 is unreachable while the DSM port is reachable as a positive control.
+- Native package stop/start and 0001-to-0002 upgrade preserve all 26 job records,
+  13 filename records and 13 output hashes, with the same UID, modes and database
+  inode. The jobs include empty browser-created jobs as well as real conversions.
 
-The temporary fixture uses UID/GID 123456, read-only rootfs, ALL capabilities
-dropped, no-new-privileges, 1 GiB /tmp tmpfs, private writable data, and a dedicated
-internal bridge with no published ports. Root only prepares disposable test
-storage; no product lifecycle hook or installed package is bypassed. The test containers, network, storage and pulled image were removed after
-evidence collection; readback confirmed their absence. Shared builder caches
-remain intact.
+## Full nonroot converter proof
 
-HOME, XDG_CACHE_HOME and XDG_CONFIG_HOME point into the writable private data,
-and USER/LOGNAME are set to convertx. The latter declarations allow LibreOffice's
-profile initialization with an arbitrary UID; PUID/PGID are not set.
+A separate disposable official-image fixture exercised every v0.19.0 converter
+as an arbitrary nonroot UID with read-only rootfs, capabilities dropped,
+no-new-privileges, isolated network and writable private HOME/XDG paths. Probes
+call the image's compiled adapter modules and real binaries without mocks or
+upstream changes. This proof complements the three installed browser conversions.
 
-The probes call the official image's compiled adapter modules and real binaries,
-without mocking subprocesses or modifying upstream source.
-
-| Converter results | Outcome |
+| Converters | Result |
 | --- | --- |
-| ImageMagick, GraphicsMagick, vips, FFmpeg, LibreOffice, pandoc (HTML and PDF), calibre, assimp, Inkscape, resvg, libjxl (encode and decode), vtracer, potrace, XeLaTeX, dvisvgm, pdftops, markitdown, vcf, libheif, msgconvert | 22 real conversion cases passed across 20 converters; every output is nonempty |
-| dasel JSON to YAML | Failed: unknown arbitrary UID in the official image's passwd database; setting USER/LOGNAME does not fix it |
+| ImageMagick, GraphicsMagick, vips, FFmpeg, LibreOffice, pandoc (HTML/PDF), calibre, assimp, Inkscape, resvg, libjxl (encode/decode), vtracer, potrace, XeLaTeX, dvisvgm, pdftops, markitdown, vcf, libheif, msgconvert | 22 conversion cases pass across 20 converters; every output is nonempty |
+| dasel JSON to YAML | Fails with unknown arbitrary UID in the official passwd database; documented limitation |
 
-All 21 v0.19.0 converters were exercised. The libheif fixture contains two
-images; both numbered PNG outputs were validated. HEIF input came from libheif's
-public examples; MSG input came from the matching Email-Outlook-Message 0.921
-CPAN distribution's test corpus. These external fixtures remain outside the
-public repository. The complete probe exits nonzero because dasel really fails.
+HEIF and MSG fixtures came from upstream libheif examples and the matching
+Email-Outlook-Message 0.921 test corpus. They remain outside this repository.
+The probe exits nonzero for the actual dasel failure. No passwd, UID or upstream
+code change conceals it. HOME, XDG_CACHE_HOME and XDG_CONFIG_HOME use private
+writable directories; PUID/PGID remain unset.
 
-Upstream HTTP upload/convert/results/download passed for PNG to JPEG (300 bytes),
-one-second MP4 to WebM (1,187 bytes), and TXT to PDF (12,648 bytes). Content types
-and JPEG/WebM/PDF magic bytes were checked. A fresh upstream session downloaded
-the same byte-identical files, confirming the configured shared-space behavior.
-These run through the image's own loopback HTTP service, not an installed DSM gateway. No DSM SSO pass is implied.
+The earlier upstream HTTP proof also verified byte-identical downloads across
+fresh sessions, confirming shared-space behavior. Its output sizes and container
+restart proof are distinct from the installed gateway/lifecycle checks above.
 
-The fixture had an empty Docker PortBindings map. A TCP connection from outside
-the NAS to its port 3000 failed. Container stop/start became healthy again after
-readiness polling; SHA-256 checks of all three downloaded files remained equal.
-These are container-fixture observations, not Package Center lifecycle results.
+## Uninstall and cleanup
 
-## Pending DSM acceptance
-
-Fresh install and installation duration; DSM main-menu login, denied-user 403,
-anonymous rejection; upstream-port rejection on the installed effective project;
-three downloads through the gateway; logout/reopen; stop/start; data-bearing
-0001-to-0002 upgrade; uninstall keep/reinstall and delete-data; final readback.
-Neither OIDC nor administrator role provisioning is applicable to this shared
-upstream anonymous space. Account removal must deny future gateway access while
-retaining other users' shared files.
+Named-volume data survives either uninstall choice, including delete-data.
+A native delete-data API request returns COMPOSE_DATA_RETAINED and removes
+test markers from the package data, config and home directories. Independent
+readback confirms all 31 job records and 16 output hashes remain in the volume;
+this is the documented SDK limitation, not a claim that conversion data was erased.
+After recording that result, explicit fixture cleanup removes the unused volume.
+The generated native uninstall wizard explicitly names the retained volume and
+warns that its files are not erased. See [platform limits](framework-gaps.md).
+Keep-data uninstall and 0002 reinstall preserve the complete database records
+and output hashes. A final run follows the actual DSM main-menu popup without
+substituting a gateway URL and again passes all four browser tests.
+Private device evidence, logs and screenshots remain outside the public
+repository; temporary credential/profile copies are removed with the fixtures.

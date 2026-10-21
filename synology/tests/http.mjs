@@ -11,7 +11,7 @@ async function request(path,options={}) {
 }
 const cases=[['input.png','jpeg,imagemagick','image/jpeg'],['input.mp4','webm,ffmpeg','video/webm'],['input.txt','pdf,libreoffice','application/pdf']];
 const results=[];
-await mkdir('/app/data/proof/downloaded',{recursive:true});
+await mkdir('/var/tmp/convertx/proof/downloaded',{recursive:true});
 for (let n=0;;n++) {
  try {const response=await fetch(origin+'/robots.txt');if (response.status===200) break;} catch {}
  if(n>=60) throw new Error('Upstream readiness timeout');
@@ -20,7 +20,7 @@ for (let n=0;;n++) {
 for (const [name,target,type] of cases) {
  const home=await request('/');assert.equal(home.status,200);
  const html=await home.text();assert.ok(!html.includes('type="password"'));
- const data=await readFile('/app/data/proof/'+name);
+ const data=await readFile('/var/tmp/convertx/proof/'+name);
  const form=new FormData();form.append('file',new File([data],name));
  assert.equal((await request('/upload',{method:'POST',body:form})).status,200);
  const response=await request('/convert',{method:'POST',body:new URLSearchParams({convert_to:target,file_names:JSON.stringify([name])})});
@@ -45,7 +45,7 @@ for (const [name,target,type] of cases) {
  assert.equal((await request('/')).status,200);
  const shared=await request(link);assert.equal(shared.status,200);
  assert.deepEqual(Buffer.from(await shared.arrayBuffer()),bytes);
- await writeFile('/app/data/proof/downloaded/'+name+'.'+target.split(',')[0],bytes);
+ await writeFile('/var/tmp/convertx/proof/downloaded/'+name+'.'+target.split(',')[0],bytes);
  results.push({input:name,target,download:true,secondSessionSharedDownload:true,bytes:bytes.length,contentType:download.headers.get('content-type')});
 }
 console.log(JSON.stringify({upstream_http_only:true,results},null,2));

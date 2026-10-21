@@ -1,30 +1,35 @@
-# Published-toolchain blocker
+# Platform limits
 
-| Item | Evidence | Required framework work |
-| --- | --- | --- |
-| Package-private Compose data on clean install | CLI/templates 0.21.0 with SDK/App 0.21.0: check succeeds; build fails with COMPOSE_PRIVATE_BIND_TIMING_UNSUPPORTED before an SPK is emitted | Provide a nonroot, lifecycle-correct way to prepare the package's private bind base before Container Manager worker acquire, or another explicitly approved storage contract. Preserve ownership, stop/start, update and keep/delete-data semantics. |
+## Supported storage and retention
 
-The release's docs/compose.md documents this same boundary. The CLI's
-standalone/compose.js `dsmComposeProblem` rejects mounts beginning with
-`${SYNOPKG_PKGVAR}/` because of DSM's preinst/pkgvar/worker/postinst ordering.
-This is not an image permission error and does not become supported by manually
-creating directories on a test NAS. No source override or root hook is used.
+The package uses the published SDK's supported named-volume path. Docker mounts
+`data` on the official image's sticky `/var/tmp` base; SDK `storage_init` creates
+and validates the package-UID-owned mode-0700 `convertx` subtree before executing
+the unchanged upstream application. No host bind, root initializer, ownership
+repair or image change is required.
 
-The gateway already accepts `dsm-users`; there is no demonstrated administrator-
-only limitation in this release. Real DSM permission checks still require a
-buildable, installed package. This App intentionally needs no OIDC support.
+The package's working directory is the private subtree, so upstream's relative
+`data/` paths stay private. SDK preparation copies the official image's public
+assets into the private public/ directory: the upstream static-file glob does
+not traverse a directory symlink. `/usr/bin/env -C` changes directory only after
+the SDK initializer has created and validated it. HOME and XDG paths are private.
 
-Remaining gates after the framework fix: build and inspect both 0001 and 0002;
-install; DSM menu SSO; denied-user 403; direct-port rejection; real conversions
-and downloads through the gateway; logout/reopen; stop/start; data-bearing
-0001-to-0002 upgrade; keep/reinstall; delete-data uninstall; cleanup/readback.
+Named volumes remain after **both** keep-data and delete-data uninstall choices.
+The native wizard and successful uninstall message name the exact undeleted
+volume. This is a known SDK limitation; delete-data does not erase ConvertX data.
+A reinstall reuses the same volume. An administrator may explicitly delete that
+exact unused volume after confirming its contents are no longer needed.
 
-## Image compatibility limitation
+## Converter compatibility
 
-The official image's dasel JSON-to-YAML conversion fails under arbitrary UID
-123456 with `user: unknown userid 123456`, even with HOME/USER/LOGNAME set.
-The package UID cannot be assumed to equal the image's built-in UID 1000.
-No passwd rewrite, privileged process, alternate UID or source patch is added.
-Treat dasel as unavailable in this candidate until upstream supports arbitrary
-UIDs or an explicitly supported runtime identity mechanism exists. The other
-20 release converters succeeded with real fixtures under the same nonroot UID.
+The official image's dasel JSON-to-YAML conversion fails under an arbitrary
+package UID with `user: unknown userid`. Setting HOME/USER/LOGNAME does not add a
+passwd entry. Do not change passwd, UID or upstream code to conceal this limit.
+The other 20 release converters succeeded with real nonroot fixtures.
+
+## Identity
+
+The published gateway supports `dsm-users` and DSM App privilege checks. ConvertX
+uses its `none` upstream mode and one shared anonymous space, so OIDC subject
+mapping and upstream administrator roles are not applicable. DSM-authorized
+users can see each other's files; account deletion does not delete shared data.

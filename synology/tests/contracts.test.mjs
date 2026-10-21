@@ -9,9 +9,14 @@ test('DSM is the only login and package storage is private', () => {
   assert.equal(m.identity_gateway.sdk, '0.21.0');
   assert.equal(m.identity_gateway.mode, 'none');
   assert.equal(m.identity_gateway.access, 'dsm-users');
+  assert.equal(m.entry, 'app-privilege');
   assert.equal(m.compose.sdk, '0.21.0');
   assert.equal(m.compose.network.egress, 'isolated');
-  assert.deepEqual(m.compose.data, {files:{service:'convertx', target:'/app/data', storage:'package', path:'convertx'}});
+  assert.equal(m.compose.data, undefined);
+  assert.ok(m.compose.services.convertx.storage_init.directories.some(d=>d.base==='/var/tmp' && d.path==='convertx'));
+  const c=parse(read('compose.yaml'));
+  assert.deepEqual(c.services.convertx.volumes,['data:/var/tmp']);
+  assert.deepEqual(c.volumes,{data:{}});
 });
 test('unauthenticated upstream cannot publish a host port or run privileged', () => {
   const {convertx:s} = parse(read('compose.yaml')).services;
@@ -27,8 +32,8 @@ test('unauthenticated upstream cannot publish a host port or run privileged', ()
   assert.equal(s.environment.UNAUTHENTICATED_USER_SHARING, 'true');
   assert.equal(s.environment.ACCOUNT_REGISTRATION, 'false');
   assert.equal(s.environment.AUTO_DELETE_EVERY_N_HOURS, '24');
-  assert.equal(s.environment.HOME, '/app/data/home');
-  assert.equal(s.environment.XDG_CONFIG_HOME, '/app/data/config');
+  assert.equal(s.environment.HOME, '/var/tmp/convertx/home');
+  assert.equal(s.environment.XDG_CONFIG_HOME, '/var/tmp/convertx/config');
   assert.equal(s.environment.USER, 'convertx');
   assert.equal(s.environment.LOGNAME, 'convertx');
 });

@@ -1,10 +1,10 @@
-// Execute inside the official image as an arbitrary nonroot UID, with /app/data
+// Execute inside the official image as an arbitrary nonroot UID, with /var/tmp/convertx
 // and /tmp writable and the remaining rootfs read-only. No mocked converters.
 import {mkdir,writeFile,stat,readFile,rm,readdir} from 'node:fs/promises';
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 const exec=promisify(execFile);
-const base='/app/data/proof';
+const base='/var/tmp/convertx/proof';
 if (process.getuid() === 0) throw new Error('Nonroot proof requires a nonroot UID');
 await mkdir(base,{recursive:true});
 await mkdir(process.env.HOME,{recursive:true});

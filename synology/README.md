@@ -1,22 +1,23 @@
-# ConvertX for DSM — draft packaging
+# ConvertX for DSM
 
-**Blocked before SPK generation:** the published CLI 0.21.0 rejects package-private
-Compose bind storage with `COMPOSE_PRIVATE_BIND_TIMING_UNSUPPORTED`. This is not
-an installable or released package. See [framework gaps](docs/framework-gaps.md).
+This package uses the supported SDK storage path: a private named volume on
+the image's sticky /var/tmp base, with package-UID private subdirectories created
+by SDK storage_init. See [platform limits](docs/framework-gaps.md).
 
-The candidate preserves the official ConvertX UI and uses the SDK DSM gateway
+The package preserves the official ConvertX UI and uses the SDK DSM gateway
 as its only public ingress. DSM-authorized users share one space: **users can see
 and download each other's files**. There is no separate ConvertX password and
 no per-user file isolation. This App intentionally uses gateway `mode: none`,
 not OIDC, because upstream has no OIDC/header authentication support.
 
 - Runtime: official ConvertX v0.19.0, pinned index digest in image-lock.json.
-- SPK target: 0.19.0-0001, x86_64; the build number is a four-digit suffix.
+- SPK version: 0.19.0-0001, x86_64; the build number is a four-digit suffix.
 - Toolchain: CLI/templates 0.21.0, SDK/App 0.21.0, executor/v0.20.0.
 - No Node frontend or custom UI is shipped; the template UI release is 0.12.5.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
-- Data: requested package-private /app/data; no shared-folder grants.
+- Data: named volume data:/var/tmp; SDK-owned private subtree /var/tmp/convertx.
+  No shared-folder grants or host filesystem access are required.
 - Cleanup: upstream checks every 24 hours and deletes jobs older than 24 hours.
 
 ## Build and inspect
@@ -32,8 +33,8 @@ cd synology
 
 `npm test` checks the identity, storage and runtime security declarations.
 `node tests/released-cli.mjs` checks the released planner's effective inventory
-and records its exact build outcome under ignored evidence/. A recognized
-framework refusal is not a successful SPK build or completed acceptance gate.
+and requires successful SPK build and inspect, recording evidence under ignored
+evidence/. Source inspection and container proofs do not replace DSM acceptance.
 
 The image lock includes the official image's source labels, platform digests
 and compressed layer bytes. To intentionally refresh the same release pin:
@@ -53,3 +54,11 @@ versioned image.
 See [design](docs/design.md), [validation](docs/validation.md) and
 [DSM e2e prerequisites](docs/e2e.md). No GitHub Release, catalog update or package
 registry publication is performed by these scripts.
+
+## Uninstall data retention
+
+The named volume is kept on uninstall, including when the native delete-data
+checkbox is selected. This is a known SDK limitation. The uninstall wizard lists
+the exact undeleted volume name; delete-data does not erase its ConvertX files.
+Reinstalling the same package reuses the retained private subtree. Only an
+explicit administrator cleanup of that exact unused volume removes the data.

@@ -1,8 +1,7 @@
 # ConvertX DSM integration
 
-Status: a packaging candidate, blocked before SPK generation by the published
-CLI's package-private mount lifecycle guard. Do not deploy this configuration
-until that SDK/CLI gap is resolved.
+The package uses the published SDK's named-volume storage contract and
+retains the unchanged upstream UI and image.
 
 ## Identity and sharing
 
@@ -52,18 +51,20 @@ Compose package UID: its exec path then inherits that UID. No image rebuild,
 usermod, groupmod, chown, root initializer or App-owned login adapter is added.
 The SDK sets the real package UID/GID, drops every capability and enables
 no-new-privileges. Rootfs is read-only; a bounded 1 GiB /tmp tmpfs is writable.
-HOME, XDG cache and XDG config live in SDK-initialized private subdirectories of /app/data. USER/LOGNAME name the upstream runtime context; they do not create a passwd entry or impersonate a DSM user.
+HOME, XDG cache and XDG config live in SDK-initialized private subdirectories of /var/tmp/convertx. USER/LOGNAME name the upstream runtime context; they do not create a passwd entry or impersonate a DSM user.
 
-/app/data is explicitly mapped to the package data directory's convertx subtree.
-Database, uploads and outputs retain the upstream paths; users do not grant
-access to shared folders or the entire NAS. AUTO_DELETE_EVERY_N_HOURS=24 checks
-for jobs older than 24 hours every 24 hours (therefore deletion can approach
-48 hours after creation while running). It does not erase old files while the
-package is stopped. MAX_CONVERT_PROCESS=2 bounds conversion concurrency.
+A private named volume is mounted on /var/tmp, the official image's sticky base.
+SDK storage_init creates /var/tmp/convertx and its private data, HOME, cache,
+config and public subdirectories as the package UID. The app changes directory
+after initialization and keeps its upstream relative data/ paths. SDK prepare
+copies /app/public into the private public directory because the upstream asset
+glob does not follow a directory symlink. The image and upstream code stay intact.
 
-The published CLI rejects this package data mapping on a fresh DSM install:
-preinst precedes pkgvar creation, and docker-project acquire precedes postinst.
-See framework-gaps.md. Named volumes or privileged mkdir hooks are not substituted.
+AUTO_DELETE_EVERY_N_HOURS=24 checks for jobs older than 24 hours every 24 hours,
+so deletion can approach 48 hours after creation while running. The package does
+not delete files while stopped. MAX_CONVERT_PROCESS=2 bounds concurrency.
+Named volumes survive keep-data and delete-data uninstall; the wizard reports
+the exact retained volume. See framework-gaps.md for that known SDK limitation.
 
 ## Upstream and license
 
@@ -74,4 +75,4 @@ commit, not main's upcoming 0.20.0 code. The image lock records that commit and
 both architectures, although the proposed SPK currently targets x86_64 only.
 Upstream source: https://github.com/C4illin/ConvertX/tree/v0.19.0 (AGPL-3.0).
 All packaging changes are MIT and retain upstream notices. This draft is not a
-release, and complete generated-SPK license inventory remains an acceptance gate.
+release, and the CLI includes its generated SDK/template notices in the SPK.

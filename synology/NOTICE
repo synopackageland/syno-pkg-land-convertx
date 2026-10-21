@@ -6,5 +6,4 @@ by digest from the upstream registry, not rebuilt or embedded in the SPK.
 Other converter binaries inside that image retain their respective upstream
 licenses; the image itself remains the upstream distribution.
 The CLI/templates and SDK are pinned published releases. The template MIT
-license is included as LICENSES/TEMPLATE.txt. The generated SPK's notice
-bundle must be checked when the SDK build blocker is resolved.
+license is included as LICENSES/TEMPLATE.txt. The generated SPK includes the SDK/template notice bundle.

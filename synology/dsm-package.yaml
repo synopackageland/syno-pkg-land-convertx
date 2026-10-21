@@ -8,25 +8,30 @@ description: Convert files with DSM login. Authorized users share one space and 
 maintainer: synopackageland
 os_min_ver: "7.2.1-69057"
 arches: [x86_64]
+entry: app-privilege
 capabilities: {}
 compose:
   sdk: 0.21.0
   resource_prefix: spl-convertx-
   startup_timeout_seconds: 900
   files: [compose.yaml]
-  data:
-    files: {service: convertx, target: /app/data, storage: package, path: convertx}
   services:
     convertx:
       storage_init:
         directories:
-          - {base: /app/data, path: home}
-          - {base: /app/data, path: cache}
-          - {base: /app/data, path: config}
+          - {base: /var/tmp, path: convertx}
+          - {base: /var/tmp, path: convertx/data}
+          - {base: /var/tmp, path: convertx/home}
+          - {base: /var/tmp, path: convertx/cache}
+          - {base: /var/tmp, path: convertx/config}
+          - {base: /var/tmp, path: convertx/public}
+        runtime:
+          prepare:
+            - argv: [/bin/cp, -R, /app/public/., /var/tmp/convertx/public/]
   web:
     service: convertx
     port: 3000
-    health: {path: /robots.txt, status: 200}
+    health: {path: /healthcheck, status: 200}
   network: {egress: isolated}
 identity_gateway:
   sdk: 0.21.0
