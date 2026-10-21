@@ -12,7 +12,7 @@ not OIDC, because upstream has no OIDC/header authentication support.
 
 - Runtime: official ConvertX v0.19.0, pinned index digest in image-lock.json.
 - SPK version: 0.19.0-0001, x86_64; the build number is a four-digit suffix.
-- Toolchain: CLI/templates 0.21.0, SDK/App 0.21.0, executor/v0.20.0.
+- Toolchain: CLI/templates 0.22.0, SDK/App 0.22.0, executor/v0.20.0.
 - No Node frontend or custom UI is shipped; the template UI release is 0.12.5.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.

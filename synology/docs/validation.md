@@ -85,3 +85,7 @@ and output hashes. A final run follows the actual DSM main-menu popup without
 substituting a gateway URL and again passes all four browser tests.
 Private device evidence, logs and screenshots remain outside the public
 repository; temporary credential/profile copies are removed with the fixtures.
+
+## Published framework 0.22.0
+
+The release candidate uses published CLI/templates and SDK/App 0.22.0, executor/v0.20.0 and the template UI release 0.12.5, without source overrides. Registry tarball integrities match the lockfiles. On DSM 7.3.2 x86_64, fresh installation, native start, DSM main-menu sign-in, PNG-to-JPEG conversion and download, native stop/start and delete-data uninstall passed. The converted JPEG decoded at its original 1000-by-1400 dimensions. Package, container and network removal were read back; the retained named volume was separately removed as test-fixture cleanup. DSM-managed empty directories and package identity were retained.
