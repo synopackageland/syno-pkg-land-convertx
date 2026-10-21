@@ -1,0 +1,37 @@
+schema: 2
+package: SynoPkgConvertX
+version: 0.19.0
+build: 1
+displayname: ConvertX
+icon: assets/icon.png
+description: Convert files with DSM login. Authorized users share one space and can see each other's files.
+maintainer: synopackageland
+os_min_ver: "7.2.1-69057"
+arches: [x86_64]
+capabilities: {}
+compose:
+  sdk: 0.21.0
+  resource_prefix: spl-convertx-
+  startup_timeout_seconds: 900
+  files: [compose.yaml]
+  data:
+    files: {service: convertx, target: /app/data, storage: package, path: convertx}
+  services:
+    convertx:
+      storage_init:
+        directories:
+          - {base: /app/data, path: home}
+          - {base: /app/data, path: cache}
+          - {base: /app/data, path: config}
+  web:
+    service: convertx
+    port: 3000
+    health: {path: /robots.txt, status: 200}
+  network: {egress: isolated}
+identity_gateway:
+  sdk: 0.21.0
+  mode: none
+  access: dsm-users
+  listen: {https: 29443}
+  session_ttl: 900
+ui: {launch: new-page}

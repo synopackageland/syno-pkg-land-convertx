@@ -1,0 +1,16 @@
+{
+  "name": "synopkgland-convertx-packaging",
+  "version": "0.19.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/contracts.test.mjs",
+    "check": "synopkgland check --json",
+    "build": "synopkgland build --arch x86_64 --json",
+    "gate": "npm test && npm run check && npm run build"
+  },
+  "devDependencies": {
+    "@synopackageland/cli": "0.21.0",
+    "yaml": "2.9.1"
+  }
+}
