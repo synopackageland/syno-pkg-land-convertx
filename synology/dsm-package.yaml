@@ -4,7 +4,7 @@ version: 0.19.0
 build: 2
 displayname: ConvertX
 icon: assets/icon.png
-description: Convert files with DSM login. Authorized users share one space and can see each other's files.
+description: Convert documents, images, audio and video between file formats
 maintainer: synopackageland
 os_min_ver: "7.2.1-69057"
 arches: [x86_64]
@@ -40,3 +40,7 @@ identity_gateway:
   listen: {https: 29443}
   session_ttl: 900
 ui: {launch: new-page}
+i18n:
+  info:
+    zh-TW:
+      description: 轉換文件、圖片、音訊與影片的檔案格式
