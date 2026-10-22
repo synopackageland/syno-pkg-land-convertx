@@ -2,9 +2,11 @@
   "name": "synopkgland-convertx-e2e",
   "private": true,
   "type": "module",
-  "scripts": {"test": "e2e run --config e2e.config.ts"},
+  "scripts": {
+    "test": "e2e run --config e2e.config.ts"
+  },
   "devDependencies": {
-    "@synopackageland/cli": "0.22.0",
+    "@synopackageland/cli": "0.24.0",
     "@e2e-dev/web": "0.14.0",
     "e2e": "0.19.0",
     "@ai-sdk/openai": "4.0.91",
