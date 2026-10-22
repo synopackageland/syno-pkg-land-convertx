@@ -6,11 +6,11 @@ const root = new URL('../', import.meta.url);
 const read = name => readFileSync(new URL(name, root), 'utf8');
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
-  assert.equal(m.identity_gateway.sdk, '0.24.0');
+  assert.equal(m.identity_gateway.sdk, '0.26.0');
   assert.equal(m.identity_gateway.mode, 'none');
   assert.equal(m.identity_gateway.access, 'dsm-users');
   assert.equal(m.entry, 'app-privilege');
-  assert.equal(m.compose.sdk, '0.24.0');
+  assert.equal(m.compose.sdk, '0.26.0');
   assert.equal(m.compose.network.egress, 'isolated');
   assert.equal(m.compose.data, undefined);
   assert.ok(m.compose.services.convertx.storage_init.directories.some(d=>d.base==='/var/tmp' && d.path==='convertx'));
