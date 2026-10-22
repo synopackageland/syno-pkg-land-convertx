@@ -1,5 +1,11 @@
 # ConvertX for DSM
 
+## SDK 0.26.0 rebuild
+
+Rebuild 0.19.0-0003 with published SDK/App/CLI/templates 0.26.0, UI 0.14.4 and Go 1.26.10. Maintainer: Syno Package Land. Official images and application sources are unchanged.
+
+0.19.0-0003 使用已發佈 SDK/App/CLI/templates 0.26.0、UI 0.14.4 與 Go 1.26.10 重建；維護者顯示為 Syno Package Land。 官方映像與上游程式維持原樣。
+
 This package uses the supported SDK storage path: a private named volume on
 the image's sticky /var/tmp base, with package-UID private subdirectories created
 by SDK storage_init. See [platform limits](docs/framework-gaps.md).
