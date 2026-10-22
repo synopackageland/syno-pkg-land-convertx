@@ -62,3 +62,7 @@ checkbox is selected. This is a known SDK limitation. The uninstall wizard lists
 the exact undeleted volume name; delete-data does not erase its ConvertX files.
 Reinstalling the same package reuses the retained private subtree. Only an
 explicit administrator cleanup of that exact unused volume removes the data.
+
+## Official package icon
+
+The DSM package uses the official project artwork, preserved unchanged and only resized/rasterized to the required icon sizes. See [assets/icon-source.json](assets/icon-source.json) for the source revision and original SHA-256, and [NOTICE](NOTICE) for attribution and the applicable image license. The package ID remains `SynoPkgConvertX` for upgrade continuity.

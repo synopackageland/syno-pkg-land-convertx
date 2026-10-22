@@ -7,3 +7,10 @@ Other converter binaries inside that image retain their respective upstream
 licenses; the image itself remains the upstream distribution.
 The CLI/templates and SDK are pinned published releases. The template MIT
 license is included as LICENSES/TEMPLATE.txt. The generated SPK includes the SDK/template notice bundle.
+
+## Package icon attribution
+
+Official ConvertX artwork from C4illin/ConvertX at `v0.19.0`, `public/android-chrome-512x512.png`.
+Source: https://raw.githubusercontent.com/C4illin/ConvertX/v0.19.0/public/android-chrome-512x512.png
+Original SHA-256: `f7aab4d7051286754c1f8a8e5f085f90662f68d55e238d1654c52295f45b2ad9`.
+License: AGPL-3.0. The original asset is preserved; only size conversion/rasterization is performed for DSM. Upstream names and trademarks remain with their respective owners; this community integration does not claim upstream endorsement.
