@@ -1,5 +1,14 @@
 # Validation
 
+## 0.19.0-0004 port change
+
+Four packaging contract tests and published CLI 0.26.0 check/build/inspect pass
+locally. The built SPK declares HTTPS 31443 consistently in `conf/resource`,
+`sso/gateway.json` and `sso/native-nginx.conf`; its nginx listener no longer uses
+29443. The regression test fails against the previous 29443 declaration.
+No NAS installation, upgrade or coexistence test has been run for this build.
+Earlier device results below apply to their named builds only.
+
 The published toolchain builds and inspects both 0.19.0-0001 and the 0002
 upgrade fixture. Installed DSM acceptance uses the official pinned image,
 SDK-initialized private named-volume storage, and the package UID.

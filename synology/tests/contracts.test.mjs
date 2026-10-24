@@ -4,6 +4,12 @@ import {readFileSync} from 'node:fs';
 import {parse} from 'yaml';
 const root = new URL('../', import.meta.url);
 const read = name => readFileSync(new URL(name, root), 'utf8');
+test('the public gateway has a dedicated port for coexistence with other Apps', () => {
+  const m = parse(read('dsm-package.yaml'));
+  assert.equal(m.identity_gateway.listen.https, 31443);
+  assert.notEqual(m.identity_gateway.listen.https, m.compose.web.port);
+  assert.equal(m.build, 4);
+});
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
   assert.equal(m.identity_gateway.sdk, '0.26.0');

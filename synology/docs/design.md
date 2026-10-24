@@ -23,7 +23,7 @@ trigger deletion of other users' files.
 
 ## Network boundary
 
-Only the gateway's HTTPS listener (29443) is public. There are no Compose
+Only the gateway's HTTPS listener (31443) is public. There are no Compose
 published ports or host-network services. The published SDK planner removes
 any upstream port publishing, allocates a dedicated internal bridge for ingress,
 and gives the gateway the container's internal address. Isolated egress disables
