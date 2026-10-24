@@ -10,8 +10,8 @@
     "gate": "npm test && npm run check && npm run build"
   },
   "devDependencies": {
-    "@synopackageland/cli": "0.28.0",
+    "@synopackageland/cli": "0.29.0",
     "yaml": "2.9.1",
-    "@synopackageland/templates": "0.28.0"
+    "@synopackageland/templates": "0.29.0"
   }
 }

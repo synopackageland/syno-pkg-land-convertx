@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.19.0-0005
+
+- Rebuild 0.19.0-0005 with SDK/App 0.29.1 and CLI/templates 0.29.0, retaining executor/v0.27.0. Upstream images and App configuration are unchanged. No NAS testing was performed for this rebuild.
+- 使用 SDK/App 0.29.1 與 CLI/templates 0.29.0 重建，保留 executor/v0.27.0；上游映像與 App 設定不變，本次未進行 NAS 測試
+
 ## 0.19.0-0004
 
 - Move the HTTPS gateway from port 29443 to 31443 so ConvertX can coexist with

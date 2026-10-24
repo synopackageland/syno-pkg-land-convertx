@@ -1,5 +1,9 @@
 # ConvertX for DSM
 
+## SDK 0.29.1 rebuild
+
+Rebuild 0.19.0-0005 with SDK/App 0.29.1 and CLI/templates 0.29.0, retaining executor/v0.27.0. Upstream images and App configuration are unchanged. No NAS testing was performed for this rebuild.
+
 ## HTTPS port change in 0.19.0-0004
 
 The gateway now uses HTTPS port **31443** instead of 29443, allowing ConvertX,
