@@ -2,12 +2,19 @@
 
 ## 0.19.0-0004 port change
 
-Four packaging contract tests and published CLI 0.26.0 check/build/inspect pass
+Four packaging contract tests and published CLI 0.28.0 check/build/inspect pass
 locally. The built SPK declares HTTPS 31443 consistently in `conf/resource`,
 `sso/gateway.json` and `sso/native-nginx.conf`; its nginx listener no longer uses
 29443. The regression test fails against the previous 29443 declaration.
 No NAS installation, upgrade or coexistence test has been run for this build.
 Earlier device results below apply to their named builds only.
+
+SDK 0.28.0 rebuild of 0.19.0-0004: published CLI/templates/SDK/App 0.28.0,
+executor/v0.27.0, UI 0.14.4, Go 1.26.10, no source overrides. On macOS, ran
+`npm test` (4 of 4 pass), `synopkgland check --json` (ok), `synopkgland build
+--arch x86_64 --json` (ok, SynoPkgConvertX-0.19.0-0004-x86_64.spk) and
+`synopkgland inspect` on that SPK (ok; only two unknown INFO field warnings).
+No NAS installation, upgrade, slow-start or e2e test was run for this rebuild.
 
 The published toolchain builds and inspects both 0.19.0-0001 and the 0002
 upgrade fixture. Installed DSM acceptance uses the official pinned image,
