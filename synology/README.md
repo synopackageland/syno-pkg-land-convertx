@@ -1,22 +1,10 @@
 # ConvertX for DSM
 
-## HTTPS port change in 0.19.0-0004
+## 0.19.0-0006
 
-The gateway now uses HTTPS port **31443** instead of 29443, allowing ConvertX,
-Jellyfin and Vaultwarden to coexist. After upgrading, update saved URLs, firewall
-rules and port forwarding to use `https://<nas-host>:31443`.
+Improve opening the App from the DSM menu and external access settings. Built with SDK/App 0.30.2 and CLI/templates 0.30.0. No NAS testing was performed for this toolchain rebuild.
 
-## SDK 0.28.0 rebuild in 0.19.0-0004
-
-Rebuilt with published SDK/App/CLI/templates 0.28.0 (executor/v0.27.0), adding the SDK's slow-NAS startup defaults (generous health/readiness timing, Starting status in the UI, `/_spl/ping` gateway liveness). Go 1.26.10 and UI 0.14.4 are unchanged. Not tested on a NAS.
-
-以已發佈的 SDK/App/CLI/templates 0.28.0（executor/v0.27.0）重建，納入 SDK 針對慢速 NAS 的啟動預設值（較寬鬆的健康檢查與就緒時限、介面顯示「啟動中」狀態、`/_spl/ping` 閘道存活檢查）。Go 1.26.10 與 UI 0.14.4 不變。尚未在 NAS 上測試。
-
-## SDK 0.26.0 rebuild (0.19.0-0003)
-
-Rebuild 0.19.0-0003 with published SDK/App/CLI/templates 0.26.0, UI 0.14.4 and Go 1.26.10. Maintainer: Syno Package Land. Official images and application sources are unchanged.
-
-0.19.0-0003 使用已發佈 SDK/App/CLI/templates 0.26.0、UI 0.14.4 與 Go 1.26.10 重建；維護者顯示為 Syno Package Land。 官方映像與上游程式維持原樣。
+改善從 DSM 選單開啟 App 與外網存取設定；使用 SDK/App 0.30.2 和 CLI/templates 0.30.0 重建
 
 This package uses the supported SDK storage path: a private named volume on
 the image's sticky /var/tmp base, with package-UID private subdirectories created
@@ -29,9 +17,9 @@ no per-user file isolation. This App intentionally uses gateway `mode: none`,
 not OIDC, because upstream has no OIDC/header authentication support.
 
 - Runtime: official ConvertX v0.19.0, pinned index digest in image-lock.json.
-- SPK version: 0.19.0-0001, x86_64; the build number is a four-digit suffix.
-- Toolchain: CLI/templates 0.22.0, SDK/App 0.22.0, executor/v0.20.0.
-- No Node frontend or custom UI is shipped; the template UI release is 0.12.5.
+- SPK version: 0.19.0-0006, x86_64; the build number is a four-digit suffix.
+- Toolchain: CLI/templates 0.30.0, SDK/App 0.30.2, executor/v0.27.0.
+- No Node frontend or custom UI is shipped; the template UI release is 0.14.4.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
 - Data: named volume data:/var/tmp; SDK-owned private subtree /var/tmp/convertx.
@@ -40,7 +28,7 @@ not OIDC, because upstream has no OIDC/header authentication support.
 
 ## Build and inspect
 
-Use a Linux builder with Node 24, Go 1.26.9, Python 3 and curl. Fetch the pinned
+Use a Linux builder with Node 24, Go 1.26.10, Python 3 and curl. Fetch the pinned
 published SDK Go modules using authorized Git credentials or a verified module
 cache. Source overrides are refused.
 
