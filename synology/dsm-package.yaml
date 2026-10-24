@@ -13,7 +13,6 @@ capabilities: {}
 compose:
   sdk: 0.26.0
   resource_prefix: spl-convertx-
-  startup_timeout_seconds: 900
   files: [compose.yaml]
   services:
     convertx:
