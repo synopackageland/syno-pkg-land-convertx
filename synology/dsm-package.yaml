@@ -11,9 +11,8 @@ arches: [x86_64]
 entry: app-privilege
 capabilities: {}
 compose:
-  sdk: 0.26.0
+  sdk: 0.28.0
   resource_prefix: spl-convertx-
-  startup_timeout_seconds: 900
   files: [compose.yaml]
   services:
     convertx:
@@ -34,7 +33,7 @@ compose:
     health: {path: /healthcheck, status: 200}
   network: {egress: isolated}
 identity_gateway:
-  sdk: 0.26.0
+  sdk: 0.28.0
   mode: none
   access: dsm-users
   listen: {https: 31443}

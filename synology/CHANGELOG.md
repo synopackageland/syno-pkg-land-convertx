@@ -5,6 +5,8 @@
 - Move the HTTPS gateway from port 29443 to 31443 so ConvertX can coexist with
   Vaultwarden and Jellyfin. Update saved URLs, firewall rules and port forwarding
   to use `https://<nas-host>:31443` after upgrading.
+- Rebuilt with published SDK/App/CLI/templates 0.28.0 (executor/v0.27.0), adding the SDK's slow-NAS startup defaults (generous health/readiness timing, Starting status in the UI, `/_spl/ping` gateway liveness). Go 1.26.10 and UI 0.14.4 are unchanged. Not tested on a NAS.
+- 以已發佈的 SDK/App/CLI/templates 0.28.0（executor/v0.27.0）重建，納入 SDK 針對慢速 NAS 的啟動預設值（較寬鬆的健康檢查與就緒時限、介面顯示「啟動中」狀態、`/_spl/ping` 閘道存活檢查）。Go 1.26.10 與 UI 0.14.4 不變。尚未在 NAS 上測試。
 
 ## 0.19.0-0003
 
