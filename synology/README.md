@@ -1,5 +1,11 @@
 # ConvertX for DSM
 
+## HTTPS port change in 0.19.0-0004
+
+The gateway now uses HTTPS port **31443** instead of 29443, allowing ConvertX,
+Jellyfin and Vaultwarden to coexist. After upgrading, update saved URLs, firewall
+rules and port forwarding to use `https://<nas-host>:31443`.
+
 ## SDK 0.26.0 rebuild
 
 Rebuild 0.19.0-0003 with published SDK/App/CLI/templates 0.26.0, UI 0.14.4 and Go 1.26.10. Maintainer: Syno Package Land. Official images and application sources are unchanged.

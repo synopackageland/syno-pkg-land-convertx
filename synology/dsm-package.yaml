@@ -1,7 +1,7 @@
 schema: 2
 package: SynoPkgConvertX
 version: 0.19.0
-build: 3
+build: 4
 displayname: ConvertX
 icon: assets/icon.png
 description: Convert documents, images, audio and video between file formats
@@ -37,7 +37,7 @@ identity_gateway:
   sdk: 0.26.0
   mode: none
   access: dsm-users
-  listen: {https: 29443}
+  listen: {https: 31443}
   session_ttl: 900
 ui: {launch: new-page}
 i18n:
