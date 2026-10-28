@@ -1,7 +1,7 @@
 schema: 2
 package: SynoPkgConvertX
 version: 0.19.0
-build: 8
+build: 9
 displayname: ConvertX
 icon: assets/icon.png
 description: Convert documents, images, audio and video between file formats
@@ -15,7 +15,7 @@ arches: [x86_64]
 entry: app-privilege
 capabilities: {}
 compose:
-  sdk: 0.31.2
+  sdk: 0.32.0
   resource_prefix: spl-convertx-
   files: [compose.yaml]
   services:
@@ -37,7 +37,7 @@ compose:
     health: {path: /healthcheck, status: 200}
   network: {egress: isolated}
 identity_gateway:
-  sdk: 0.31.2
+  sdk: 0.32.0
   mode: none
   access: dsm-users
   listen: {https: 31443}
