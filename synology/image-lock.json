@@ -1,30 +1,30 @@
 {
-  "tag": "v0.19.0",
-  "upstream_commit": "710bc7c71712af04198a39f003e3ea1aa5168a31",
-  "source_tree": "8a1201c5a5c235a2511ee0df44816115900fab12",
-  "build": 2,
+  "tag": "v0.20.0",
+  "upstream_commit": "42224e3f1f1ad0eb6e6d2bac661a5b3f2b2a2976",
+  "source_tree": "99595c59bd5f24d7ad1ba444d1a4ce55f8f473f1",
+  "build": 1,
   "repository": "c4illin/convertx",
-  "reference": "c4illin/convertx:v0.19.0@sha256:8590a21a16adb8514a8be55b74ad0112bf58ba772328a53f7b40528fcf8fa013",
-  "index_digest": "sha256:8590a21a16adb8514a8be55b74ad0112bf58ba772328a53f7b40528fcf8fa013",
+  "reference": "c4illin/convertx:v0.20.0@sha256:6259e0c1e063120b1ddbc6937372a83be58182b2c9dc82264f58e100907b3e51",
+  "index_digest": "sha256:6259e0c1e063120b1ddbc6937372a83be58182b2c9dc82264f58e100907b3e51",
   "index_media_type": "application/vnd.oci.image.index.v1+json",
   "platforms": [
     {
       "os": "linux",
       "architecture": "amd64",
-      "manifest_digest": "sha256:a64d03997fa2686608ed31121e090f21eb8e91dfd2eb06a6aba86480deabe8c1",
-      "config_digest": "sha256:27f0ba70877cf18518748a4944ba270fd12be2af94ea4ba3ce38a743b2f800b1",
-      "source_commit": "710bc7c71712af04198a39f003e3ea1aa5168a31",
-      "version": "v0.19.0",
-      "compressed_bytes": 1538985762
+      "manifest_digest": "sha256:bba2e672eb9a42ac9d879a7758b946163f9eae00c3abd93155d0f597635970c2",
+      "config_digest": "sha256:71feba87276e0d01df75baa0bba8c5d7a7324e752997d42fdb318479f76a0618",
+      "source_commit": "42224e3f1f1ad0eb6e6d2bac661a5b3f2b2a2976",
+      "version": "v0.20.0",
+      "compressed_bytes": 1533082504
     },
     {
       "os": "linux",
       "architecture": "arm64",
-      "manifest_digest": "sha256:b2aaeda44ae9451be0e6e69f512ce6931419dbf2f3a91731c23875f7d3d46480",
-      "config_digest": "sha256:f17e91a2acc94b141a16f6ae85345eb529e4e6850cd8817afaa2a3a9a9120325",
-      "source_commit": "710bc7c71712af04198a39f003e3ea1aa5168a31",
-      "version": "v0.19.0",
-      "compressed_bytes": 1460785599
+      "manifest_digest": "sha256:abccb600e3b88fa2c3852a8ff308300ebf1e8293d6651960fd3b0ba2fb8fe5d1",
+      "config_digest": "sha256:a23739daea0d1c5d2b715b6155e19f5ceeb308d59c67573cc8478b9281a1bf44",
+      "source_commit": "42224e3f1f1ad0eb6e6d2bac661a5b3f2b2a2976",
+      "version": "v0.20.0",
+      "compressed_bytes": 1449608297
     }
   ],
   "distribution": "official upstream registry; DSM Container Manager downloads the image"

@@ -1,4 +1,4 @@
-FROM oven/bun:1.4.3-slim AS base
+FROM oven/bun:1.4.4-slim AS base
 WORKDIR /app
 COPY package.json bun.lock /app/
 RUN bun install --frozen-lockfile
@@ -56,6 +56,9 @@ RUN apt-get update && apt-get install -y \
   --no-install-recommends \
   && pipx install "markitdown[all]" \
   && rm -rf /var/lib/apt/lists/*
+
+# Remove when patch is released
+RUN pipx runpip markitdown install --upgrade --no-cache-dir "Brotli>=1.2.1" "brotlicffi>=1.2.1.0"
 
 RUN groupadd -g 1000 convertx && \
   useradd -u 1000 -g convertx -d /home/convertx -m -s /bin/bash convertx
