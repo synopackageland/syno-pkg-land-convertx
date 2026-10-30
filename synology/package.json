@@ -7,11 +7,12 @@
     "test": "node --test tests/contracts.test.mjs",
     "check": "synopkgland check --json",
     "build": "synopkgland build --arch x86_64 --json",
-    "gate": "npm test && npm run check && npm run build"
+    "gate": "npm test && npm run check && npm run build",
+    "e2e:smoke": "npm --prefix tests/e2e run e2e:smoke"
   },
   "devDependencies": {
-    "@synopackageland/cli": "0.34.0",
-    "@synopackageland/templates": "0.32.0",
+    "@synopackageland/cli": "0.41.9",
+    "@synopackageland/templates": "0.35.5",
     "yaml": "2.9.1"
   }
 }
