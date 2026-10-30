@@ -1,5 +1,19 @@
 # DSM acceptance suite
 
+## App-open smoke
+
+`npm run e2e:smoke` (from synology/, or tests/e2e) runs the released CLI's
+`appOpenSmoke` against an installed package: administrator (A) and a normal
+user with the ConvertX App privilege (N) must reach the upstream upload area
+(`#dropzone`); a fresh signed-out browser (X) must stop at the DSM sign-in
+gate. Install the test dependencies in tests/e2e and `npx @e2e-dev/web install
+chromium` once. Set DSM_E2E_URL to the NAS's DSM HTTPS URL (connected
+directly), and DSM_E2E_ACCOUNT_ADMIN and DSM_E2E_ACCOUNT_NORMAL to private mode
+600 account files. Self-signed DSM and gateway certificates are accepted by the
+CLI's Chromium target. The smoke never installs packages or changes accounts.
+
+## Full suite
+
 The suite in tests/e2e uses the released CLI's DSM login/profile helpers. Run it
 after both 0001/0002 SPKs pass build and inspect. Runtime uses the supported
 private named-volume storage contract.
