@@ -10,7 +10,7 @@ services:
     image: '''+lock['reference']+'''
     user: "${SYNOPKGLAND_UID}:${SYNOPKGLAND_GID}"
     entrypoint: [/usr/bin/env, -C, /var/tmp/convertx, /entrypoint.sh]
-    command: [bun, run, /app/dist/src/index.js]
+    command: [/app/convertx]
     working_dir: /app
     read_only: true
     cap_drop: [ALL]

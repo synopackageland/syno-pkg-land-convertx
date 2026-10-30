@@ -8,7 +8,7 @@ test('the public gateway has a dedicated port for coexistence with other Apps', 
   const m = parse(read('dsm-package.yaml'));
   assert.equal(m.identity_gateway.listen.https, 31443);
   assert.notEqual(m.identity_gateway.listen.https, m.compose.web.port);
-  assert.equal(m.build, 9);
+  assert.equal(m.build, 1);
 });
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
@@ -29,6 +29,7 @@ test('unauthenticated upstream cannot publish a host port or run privileged', ()
   assert.equal(s.ports, undefined);
   assert.equal(s.network_mode, undefined);
   assert.equal(s.privileged, undefined);
+  assert.deepEqual(s.command, ['/app/convertx']);
   assert.equal(s.read_only, true);
   assert.deepEqual(s.cap_drop, ['ALL']);
   assert.deepEqual(s.security_opt, ['no-new-privileges:true']);
@@ -46,10 +47,10 @@ test('unauthenticated upstream cannot publish a host port or run privileged', ()
 test('the official image digest and source revision match the release', () => {
   const lock=JSON.parse(read('image-lock.json'));
   const s=parse(read('compose.yaml')).services.convertx;
-  assert.equal(lock.tag, 'v0.19.0');
+  assert.equal(lock.tag, 'v0.20.0');
   assert.match(lock.upstream_commit, /^[a-f0-9]{40}$/);
   assert.equal(s.image, lock.reference);
-  assert.match(s.image, /^c4illin\/convertx:v0\.19\.0@sha256:[a-f0-9]{64}$/);
+  assert.match(s.image, /^c4illin\/convertx:v0\.20\.0@sha256:[a-f0-9]{64}$/);
   for (const platform of lock.platforms) {
     assert.equal(platform.source_commit, lock.upstream_commit);
     assert.ok(platform.compressed_bytes > 0);
