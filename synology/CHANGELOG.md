@@ -1,6 +1,14 @@
 # Changelog
 
 
+## 0.20.0-0003: CLI 0.42.2 / SDK 0.42.0 rebuild
+
+Built with CLI 0.42.2 and SDK/App 0.42.0; templates 0.37.0.
+The toolchain records the current UI release 0.19.2; this package has no custom UI dependency.
+Upstream ConvertX v0.20.0 and its image digest are unchanged.
+The DSM ingress is `/synopkgland/SynoPkgConvertX/`.
+
+
 ## 0.20.0-0002: SDK 0.38.2 rebuild
 
 Built with SDK/App 0.38.2, CLI 0.41.9 and templates 0.35.5; upstream ConvertX v0.20.0 and its image digest are unchanged.
