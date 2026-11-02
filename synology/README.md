@@ -6,7 +6,7 @@
 Built with CLI 0.42.2 and SDK/App 0.42.0; templates 0.37.0.
 The toolchain records the current UI release 0.19.2; this package has no custom UI dependency.
 Upstream ConvertX v0.20.0 and its image digest are unchanged.
-The DSM ingress is `/synopkgland/SynoPkgConvertX/`.
+Preserves the DSM app launcher and saved gateway HTTPS port.
 
 
 ## 0.20.0-0002: SDK 0.38.2 rebuild
