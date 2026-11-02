@@ -39,10 +39,10 @@ and download each other's files**. There is no separate ConvertX password and
 no per-user file isolation. This App intentionally uses gateway `mode: none`,
 not OIDC, because upstream has no OIDC/header authentication support.
 
-- Runtime: official ConvertX v0.19.0, pinned index digest in image-lock.json.
-- SPK version: 0.19.0-0006, x86_64; the build number is a four-digit suffix.
-- Toolchain: CLI/templates 0.30.0, SDK/App 0.30.2, executor/v0.27.0.
-- No Node frontend or custom UI is shipped; the template UI release is 0.14.4.
+- Runtime: official ConvertX v0.20.0, pinned index digest in image-lock.json.
+- SPK version: 0.20.0-0003, x86_64; the build number is a four-digit suffix.
+- Toolchain: CLI 0.42.2, templates 0.37.0, SDK/App 0.42.0.
+- No Node frontend or custom UI is shipped.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
 - Data: named volume data:/var/tmp; SDK-owned private subtree /var/tmp/convertx.
@@ -51,9 +51,22 @@ not OIDC, because upstream has no OIDC/header authentication support.
 
 ## Build and inspect
 
-Use a Linux builder with Node 24, Go 1.26.10, Python 3 and curl. Fetch the pinned
-published SDK Go modules using authorized Git credentials or a verified module
-cache. Source overrides are refused.
+Use a Linux builder with Node 24, Go 1.26.10, Python 3 and curl. The script
+installs the locked CLI 0.42.2 and templates 0.37.0 from public npm. The CLI
+fetches SDK v0.42.0 and its Go modules from public GitHub/Go services; internet
+access is required, private credentials and a preloaded module cache are not.
+Avoid private Git URL rewrites or organization proxy settings; on a clean builder
+`GIT_TERMINAL_PROMPT=0` makes accidental credential prompts fail explicitly.
+The CLI downloads its pinned Go toolchain when needed. Source overrides are refused.
+
+For a community fork, set `package` in `dsm-package.yaml` to
+`C<your numeric GitHub owner ID>XConvertX` (at most 64 ASCII alphanumerics), change
+distributor/contact details and choose your own `compose.resource_prefix`.
+Preserve the upstream license, NOTICE and icon attribution. Changing the ID
+creates a separate DSM package rather than an upgrade of this package.
+The build script inspects the output path in the CLI's JSON response, so changing
+the identity or build number needs no script edits. See the complete
+[community submission guide](https://synopkgland.com/docs/guides/list-your-app/).
 
 ```sh
 cd synology
