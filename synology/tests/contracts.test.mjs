@@ -13,11 +13,11 @@ test('the public gateway has a dedicated port for coexistence with other Apps', 
 });
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
-  assert.equal(m.identity_gateway.sdk, '0.38.2');
+  assert.equal(m.identity_gateway.sdk, '0.42.0');
   assert.equal(m.identity_gateway.mode, 'none');
   assert.equal(m.identity_gateway.access, 'dsm-users');
   assert.equal(m.entry, 'app-privilege');
-  assert.equal(m.compose.sdk, '0.38.2');
+  assert.equal(m.compose.sdk, '0.42.0');
   assert.equal(m.compose.network.egress, 'isolated');
   assert.equal(m.compose.data, undefined);
   assert.ok(m.compose.services.convertx.storage_init.directories.some(d=>d.base==='/var/tmp' && d.path==='convertx'));

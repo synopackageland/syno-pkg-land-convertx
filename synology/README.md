@@ -1,6 +1,14 @@
 # ConvertX for DSM
 
 
+## 0.20.0-0003: CLI 0.42.2 / SDK 0.42.0 rebuild
+
+Built with CLI 0.42.2 and SDK/App 0.42.0; templates 0.37.0.
+The toolchain records the current UI release 0.19.2; this package has no custom UI dependency.
+Upstream ConvertX v0.20.0 and its image digest are unchanged.
+Preserves the DSM app launcher and saved gateway HTTPS port.
+
+
 ## 0.20.0-0002: SDK 0.38.2 rebuild
 
 Built with SDK/App 0.38.2, CLI 0.41.9 and templates 0.35.5; upstream ConvertX v0.20.0 and its image digest are unchanged.
@@ -32,8 +40,8 @@ no per-user file isolation. This App intentionally uses gateway `mode: none`,
 not OIDC, because upstream has no OIDC/header authentication support.
 
 - Runtime: official ConvertX v0.20.0, pinned index digest in image-lock.json.
-- SPK version: 0.20.0-0002, x86_64; the build number is a four-digit suffix.
-- Toolchain: CLI 0.41.9, templates 0.35.5, SDK/App 0.38.2.
+- SPK version: 0.20.0-0003, x86_64; the build number is a four-digit suffix.
+- Toolchain: CLI 0.42.2, templates 0.37.0, SDK/App 0.42.0.
 - No Node frontend or custom UI is shipped.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
@@ -44,8 +52,8 @@ not OIDC, because upstream has no OIDC/header authentication support.
 ## Build and inspect
 
 Use a Linux builder with Node 24, Go 1.26.10, Python 3 and curl. The script
-installs the locked CLI 0.41.9 and templates 0.35.5 from public npm. The CLI
-fetches SDK v0.38.2 and its Go modules from public GitHub/Go services; internet
+installs the locked CLI 0.42.2 and templates 0.37.0 from public npm. The CLI
+fetches SDK v0.42.0 and its Go modules from public GitHub/Go services; internet
 access is required, private credentials and a preloaded module cache are not.
 Avoid private Git URL rewrites or organization proxy settings; on a clean builder
 `GIT_TERMINAL_PROMPT=0` makes accidental credential prompts fail explicitly.
