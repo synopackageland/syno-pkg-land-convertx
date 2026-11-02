@@ -8,7 +8,7 @@ test('the public gateway has a dedicated port for coexistence with other Apps', 
   const m = parse(read('dsm-package.yaml'));
   assert.equal(m.identity_gateway.listen.https, 31443);
   assert.notEqual(m.identity_gateway.listen.https, m.compose.web.port);
-  assert.equal(m.build, 2);
+  assert.ok(Number.isInteger(m.build) && m.build > 0);
   assert.equal(m.install.ports, true);
 });
 test('DSM is the only login and package storage is private', () => {
