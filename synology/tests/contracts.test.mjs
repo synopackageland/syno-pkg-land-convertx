@@ -4,20 +4,25 @@ import {readFileSync} from 'node:fs';
 import {parse} from 'yaml';
 const root = new URL('../', import.meta.url);
 const read = name => readFileSync(new URL(name, root), 'utf8');
-test('the public gateway has a dedicated port for coexistence with other Apps', () => {
+test('DSM owns the fixed path and no public gateway port is declared', () => {
   const m = parse(read('dsm-package.yaml'));
-  assert.equal(m.identity_gateway.listen.https, 31443);
-  assert.notEqual(m.identity_gateway.listen.https, m.compose.web.port);
+  const c = parse(read('compose.yaml'));
+  assert.deepEqual(m.identity_gateway.ingress, {path: '/synopkgland/SynoPkgConvertX/'});
+  assert.equal(m.identity_gateway.listen, undefined);
+  assert.equal(m.install?.ports, undefined);
+  assert.equal(c.services.convertx.environment.WEBROOT, m.identity_gateway.ingress.path.slice(0, -1));
+  assert.deepEqual(m.compose.web.health, {
+    path: m.identity_gateway.ingress.path + 'healthcheck', status: 200,
+  });
   assert.ok(Number.isInteger(m.build) && m.build > 0);
-  assert.equal(m.install.ports, true);
 });
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
-  assert.equal(m.identity_gateway.sdk, '0.42.0');
+  assert.equal(m.identity_gateway.sdk, '0.43.1');
   assert.equal(m.identity_gateway.mode, 'none');
   assert.equal(m.identity_gateway.access, 'dsm-users');
   assert.equal(m.entry, 'app-privilege');
-  assert.equal(m.compose.sdk, '0.42.0');
+  assert.equal(m.compose.sdk, '0.43.1');
   assert.equal(m.compose.network.egress, 'isolated');
   assert.equal(m.compose.data, undefined);
   assert.ok(m.compose.services.convertx.storage_init.directories.some(d=>d.base==='/var/tmp' && d.path==='convertx'));

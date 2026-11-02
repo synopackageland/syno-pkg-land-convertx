@@ -7,7 +7,8 @@
 user with the ConvertX App privilege (N) must reach the upstream upload area
 (`#dropzone`); a fresh signed-out browser (X) must stop at the DSM sign-in
 gate. Install the test dependencies in tests/e2e and `npx @e2e-dev/web install
-chromium` once. Set DSM_E2E_URL to the NAS's DSM HTTPS URL (connected
+chromium` once. The smoke derives `/synopkgland/SynoPkgConvertX/` from the manifest.
+Set DSM_E2E_URL to the NAS's DSM HTTPS URL (connected
 directly), and DSM_E2E_ACCOUNT_ADMIN and DSM_E2E_ACCOUNT_NORMAL to private mode
 600 account files. Self-signed DSM and gateway certificates are accepted by the
 CLI's Chromium target. The smoke never installs packages or changes accounts.
@@ -15,12 +16,12 @@ CLI's Chromium target. The smoke never installs packages or changes accounts.
 ## Full suite
 
 The suite in tests/e2e uses the released CLI's DSM login/profile helpers. Run it
-after both 0001/0002 SPKs pass build and inspect. Runtime uses the supported
+after the current SPK passes build and inspect. Runtime uses the supported
 private named-volume storage contract.
 
 1. Use the designated isolated Linux browser/gate host. Install the test-only
    dependencies with `npm ci --ignore-scripts` in tests/e2e.
-2. Set DSM_E2E_URL to the test NAS, CONVERTX_E2E_URL to its HTTPS gateway,
+2. Set DSM_E2E_URL to the test NAS, CONVERTX_E2E_URL to that origin plus `/synopkgland/SynoPkgConvertX/`,
    DSM_E2E_PROFILE_DIR to a private reusable profile directory, and
    DSM_E2E_OUTPUT_DIR to private evidence storage. Keep profiles, screenshots,
    reports and accounts out of the public repository.
