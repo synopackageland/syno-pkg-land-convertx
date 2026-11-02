@@ -11,8 +11,8 @@
     "e2e:smoke": "npm --prefix tests/e2e run e2e:smoke"
   },
   "devDependencies": {
-    "@synopackageland/cli": "0.42.2",
-    "@synopackageland/templates": "0.37.0",
+    "@synopackageland/cli": "0.43.0",
+    "@synopackageland/templates": "0.38.0",
     "yaml": "2.9.1"
   }
 }

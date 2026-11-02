@@ -1,5 +1,16 @@
 # Release notes
 
+## 0.20.0-0005: fixed DSM path ingress
+
+The App opens at `/synopkgland/SynoPkgConvertX/` on the current DSM HTTPS origin.
+The gateway no longer publishes a dedicated port or offers a public port field.
+The official image receives `WEBROOT=/synopkgland/SynoPkgConvertX`; its health
+probe uses the same prefix. DSM App privilege, mode none and shared-space
+behavior are preserved.
+
+Built with CLI 0.43.0, Go SDK/App 0.43.1 and templates 0.38.0.
+The executor pin comes from the released SDK executor manifest
+(executor/v0.39.0). Upstream image and data volume identity are unchanged.
 
 ## 0.20.0-0002: SDK 0.38.2 rebuild
 

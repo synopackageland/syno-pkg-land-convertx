@@ -1,5 +1,16 @@
 # ConvertX for DSM
 
+## 0.20.0-0005: fixed DSM path ingress
+
+The App opens at `/synopkgland/SynoPkgConvertX/` on the current DSM HTTPS origin.
+The gateway no longer publishes a dedicated port or offers a public port field.
+The official image receives `WEBROOT=/synopkgland/SynoPkgConvertX`; its health
+probe uses the same prefix. DSM App privilege, mode none and shared-space
+behavior are preserved.
+
+Built with CLI 0.43.0, Go SDK/App 0.43.1 and templates 0.38.0.
+The executor pin comes from the released SDK executor manifest
+(executor/v0.39.0). Upstream image and data volume identity are unchanged.
 
 ## 0.20.0-0003: CLI 0.42.2 / SDK 0.42.0 rebuild
 
@@ -40,8 +51,8 @@ no per-user file isolation. This App intentionally uses gateway `mode: none`,
 not OIDC, because upstream has no OIDC/header authentication support.
 
 - Runtime: official ConvertX v0.20.0, pinned index digest in image-lock.json.
-- SPK version: 0.20.0-0003, x86_64; the build number is a four-digit suffix.
-- Toolchain: CLI 0.42.2, templates 0.37.0, SDK/App 0.42.0.
+- SPK version: 0.20.0-0005, x86_64; the build number is a four-digit suffix.
+- Toolchain: CLI 0.43.0, templates 0.38.0, Go SDK/App 0.43.1.
 - No Node frontend or custom UI is shipped.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
   rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
@@ -52,8 +63,8 @@ not OIDC, because upstream has no OIDC/header authentication support.
 ## Build and inspect
 
 Use a Linux builder with Node 24, Go 1.26.10, Python 3 and curl. The script
-installs the locked CLI 0.42.2 and templates 0.37.0 from public npm. The CLI
-fetches SDK v0.42.0 and its Go modules from public GitHub/Go services; internet
+installs the locked CLI 0.43.0 and templates 0.38.0 from public npm. The CLI
+fetches SDK v0.43.1 and its Go modules from public GitHub/Go services; internet
 access is required, private credentials and a preloaded module cache are not.
 Avoid private Git URL rewrites or organization proxy settings; on a clean builder
 `GIT_TERMINAL_PROMPT=0` makes accidental credential prompts fail explicitly.
@@ -62,6 +73,8 @@ The CLI downloads its pinned Go toolchain when needed. Source overrides are refu
 For a community fork, set `package` in `dsm-package.yaml` to
 `C<your numeric GitHub owner ID>XConvertX` (at most 64 ASCII alphanumerics), change
 distributor/contact details and choose your own `compose.resource_prefix`.
+Update `identity_gateway.ingress.path`, `WEBROOT` in the compose renderer,
+and the health path to use that same case-sensitive package ID.
 Preserve the upstream license, NOTICE and icon attribution. Changing the ID
 creates a separate DSM package rather than an upgrade of this package.
 The build script inspects the output path in the CLI's JSON response, so changing

@@ -3,9 +3,10 @@
 import assert from 'node:assert/strict';
 import {readFile,stat,mkdir,writeFile} from 'node:fs/promises';
 const origin=process.env.CONVERTX_PROOF_URL || 'http://127.0.0.1:3000';
+const webroot=process.env.WEBROOT || '';
 const cookies=new Map();
 async function request(path,options={}) {
- const response=await fetch(origin+path,{...options,redirect:'manual',headers:{...options.headers,Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; ')}});
+ const response=await fetch(origin+(path.startsWith(webroot+'/') ? path : webroot+path),{...options,redirect:'manual',headers:{...options.headers,Cookie:[...cookies].map(([k,v])=>k+'='+v).join('; ')}});
  for (const value of response.headers.getSetCookie()) { const [pair]=value.split(';'); const i=pair.indexOf('=');cookies.set(pair.slice(0,i),pair.slice(i+1)); }
  return response;
 }
@@ -13,7 +14,7 @@ const cases=[['input.png','jpeg,imagemagick','image/jpeg'],['input.mp4','webm,ff
 const results=[];
 await mkdir('/var/tmp/convertx/proof/downloaded',{recursive:true});
 for (let n=0;;n++) {
- try {const response=await fetch(origin+'/robots.txt');if (response.status===200) break;} catch {}
+ try {const response=await fetch(origin+webroot+'/healthcheck');if (response.status===200) break;} catch {}
  if(n>=60) throw new Error('Upstream readiness timeout');
  await Bun.sleep(500);
 }
@@ -25,7 +26,7 @@ for (const [name,target,type] of cases) {
  assert.equal((await request('/upload',{method:'POST',body:form})).status,200);
  const response=await request('/convert',{method:'POST',body:new URLSearchParams({convert_to:target,file_names:JSON.stringify([name])})});
  assert.equal(response.status,302);
- const resultPath=response.headers.get('location');assert.match(resultPath,/^\/results\//);
+ const resultPath=response.headers.get('location');assert.ok(resultPath.startsWith(webroot+'/results/'));
  let result='';
  for (let n=0;n<120;n++) {
   result=await (await request(resultPath)).text();

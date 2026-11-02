@@ -10,6 +10,7 @@ services:
     cap_drop: [ALL]
     security_opt: [no-new-privileges:true]
     environment:
+      WEBROOT: /synopkgland/SynoPkgConvertX
       ALLOW_UNAUTHENTICATED: 'true'
       UNAUTHENTICATED_USER_SHARING: 'true'
       ACCOUNT_REGISTRATION: 'false'

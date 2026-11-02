@@ -1,5 +1,38 @@
 # Validation
 
+## 0.20.0-0005: fixed DSM path ingress
+
+Validated with released CLI 0.43.0, Go SDK/App 0.43.1 and templates 0.38.0.
+The official ConvertX v0.20.0 image and named volume identity are unchanged.
+The SDK tag resolves to `6f405971f6bb35ffc02004990fdcbfc370fb1ac3` and its Go
+module checksum was verified against the public checksum service.
+
+- Packaging contracts: 4 passed; check/build/inspect passed, with no inspect findings
+- The installed gateway binary, Compose controller and gateway configuration
+  hashes match the final SPK
+- In-place upgrade preserves all 16 job rows, 4 filename rows and 6 existing
+  upload/output file hashes, with the same named volume
+- The existing full browser suite passes all 4 selected tests: administrator
+  and denied-user sign-in setup, menu launch with PNG/JPEG, MP4/WebM and TXT/PDF
+  downloads, logout/reopen, and the App-privilege denial
+- The denial fixture changes only this App's rule for an existing test user;
+  every stored App rule is restored to its exact baseline afterwards
+- The old dedicated gateway port has no listener; upstream publishes no host
+  ports and retains nonroot UID, read-only rootfs and dropped capabilities
+- The final administrator/authorized normal-user/signed-out smoke passes 3 of 3
+  tests, with no skipped tests
+- Both allowed roles load home, converters and history under the fixed path;
+  every observed namespaced static resource returns 200, with no failed requests
+- Anonymous upload, results and download requests return 401; no upstream
+  WebSocket endpoint is observed in this workflow
+- Scoped source/SPK scans and public npm registry lockfile checks pass
+
+The privacy scan distinguishes the SDK-generated isolated bridge subnet from
+NAS addresses, and short numeric coincidences in public SDK ELF metadata from
+credential disclosures. Browser profiles, raw logs and private machine details
+are retained outside tracked files. No release or catalog publication is part
+of this validation.
+
 ## 0.19.0-0004 port change
 
 Four packaging contract tests and published CLI 0.28.0 check/build/inspect pass

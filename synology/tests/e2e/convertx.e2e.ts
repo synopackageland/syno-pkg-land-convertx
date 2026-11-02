@@ -24,6 +24,7 @@ async function launch(app:any) {
   await page.locator('input[type=file]').waitFor({state:'attached',timeout:60_000});
   expect(await page.locator('input[type=password]').count()).toBe(0);
   expect(new URL(page.url()).protocol).toBe('https:');
+  expect(new URL(page.url()).pathname).toBe('/synopkgland/SynoPkgConvertX/');
   if (process.env.CONVERTX_E2E_URL) expect(new URL(page.url()).origin).toBe(new URL(process.env.CONVERTX_E2E_URL).origin);
   return page;
 }
@@ -36,8 +37,9 @@ test('DSM main menu, three conversions with downloads, sign out and reopen',
   const output=process.env.DSM_E2E_OUTPUT_DIR;
   if (!fixture || !output) throw new Error('Set private fixture and evidence directories');
   for (const [input,search,converter] of [['input.png','jpeg','imagemagick'],['input.mp4','webm','ffmpeg'],['input.txt','pdf','libreoffice']]) {
-    await page.goto(new URL('/',page.url()).href);
-    const uploaded=page.waitForResponse((r:any)=>new URL(r.url()).pathname==='/upload' && r.request().method()==='POST',{timeout:30_000});
+    const base = new URL('/synopkgland/SynoPkgConvertX/', page.url());
+    await page.goto(base.href);
+    const uploaded=page.waitForResponse((r:any)=>new URL(r.url()).pathname==='/synopkgland/SynoPkgConvertX/upload' && r.request().method()==='POST',{timeout:30_000});
     await page.locator('input[type=file]').setInputFiles(join(fixture,input));
     expect((await uploaded).status()).toBe(200);
     await page.locator('input[name=convert_to_search]').fill(search);
@@ -54,8 +56,8 @@ test('DSM main menu, three conversions with downloads, sign out and reopen',
     if (search==='jpeg') expect(bytes.subarray(0,2).toString('hex')).toBe('ffd8');
     if (search==='webm') expect(bytes.subarray(0,4).toString('hex')).toBe('1a45dfa3');
   }
-  const logout=page.waitForResponse((r:any)=>new URL(r.url()).pathname==='/_sso/logout' && r.request().method()==='POST');
-  await page.evaluate(()=>{const form=document.createElement('form');form.method='POST';form.action='/_sso/logout';document.body.appendChild(form);form.submit();});
+  const logout=page.waitForResponse((r:any)=>new URL(r.url()).pathname==='/synopkgland/SynoPkgConvertX/_sso/logout' && r.request().method()==='POST');
+  await page.evaluate(()=>{const form=document.createElement('form');form.method='POST';form.action='/synopkgland/SynoPkgConvertX/_sso/logout';document.body.appendChild(form);form.submit();});
   expect((await logout).status()).toBe(302);
   await page.close();
   const reopened=await launch(app);
