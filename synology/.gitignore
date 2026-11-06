@@ -7,3 +7,8 @@ evidence/
 .cache/
 __pycache__/
 !package-lock.json
+
+# Local secrets (never commit; keep them under synology/)
+.env
+.env.*
+!.env.example
