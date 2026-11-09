@@ -1,5 +1,18 @@
 # Release notes
 
+## 0.20.0-0009: temporary files on disk
+
+Conversion temporary files move from a 1 GiB memory tmpfs on `/tmp` to SDK disk
+scratch (`compose.services.convertx.scratch: [/tmp]`, with `TMPDIR=/tmp`): a
+package-UID-owned mode-0700 directory on the package volume, emptied at every
+container start. No memory tmpfs remains. Rebuilt with published SDK/App 0.53.25
+(executor 0.53.6) and CLI 0.52.16. Upstream version and image digest are unchanged.
+
+Offline comparison with 0.20.0-0008: permissions are unchanged, approval retention
+is `not-required`, root programs and policy changes are empty and the task template
+is unchanged. The only Compose change replaces the `/tmp` tmpfs with the scratch bind
+mount; `conf/privilege` still runs as the package account.
+
 ## 0.20.0-0008: sign-in page loading
 
 Rebuilt with published SDK/App 0.53.21 and CLI 0.52.13 to improve page loading

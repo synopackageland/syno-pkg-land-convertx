@@ -29,10 +29,9 @@ services:
       USER: convertx
       LOGNAME: convertx
       TZ: UTC
+      TMPDIR: /tmp
       BRANDING: "ConvertX — shared space / 共用空間（彼此看得到檔案）"
     volumes: [data:/var/tmp]
-    tmpfs:
-      - /tmp:rw,nosuid,nodev,size=1073741824,mode=1777
     restart: unless-stopped
     stop_grace_period: 45s
 volumes:

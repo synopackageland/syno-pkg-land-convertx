@@ -1,20 +1,20 @@
 {
-  "version": "0.20.0-0008",
-  "previous_version": "0.20.0-0007",
+  "version": "0.20.0-0009",
+  "previous_version": "0.20.0-0008",
   "toolchain": {
-    "cli": "0.52.13",
+    "cli": "0.52.16",
     "templates": "0.40.1",
-    "sdk": "0.53.21",
-    "app": "0.53.21",
+    "sdk": "0.53.25",
+    "app": "0.53.25",
     "ui": "0.25.2",
-    "executorTag": "executor/v0.53.5",
+    "executorTag": "executor/v0.53.6",
     "goToolchain": "go1.26.10"
   },
   "arches": [
     "x86_64"
   ],
-  "spk": "SynoPkgConvertX-0.20.0-0008-x86_64.spk",
-  "spk_sha256": "eb039a7b0bb912083e132ee620977b5114183a0fffd82486fc05a08a0240715f",
+  "spk": "SynoPkgConvertX-0.20.0-0009-x86_64.spk",
+  "spk_sha256": "c346d722b774a137fa4c58c64e2ec9a0738b23990bdb6c0570addfebbf65aa87",
   "checks": {
     "check": true,
     "build": true,
@@ -41,14 +41,13 @@
   "upstream_files_modified": false,
   "official_image_unchanged": true,
   "image_built_locally": false,
-  "tests_run": false,
-  "nas_tested": false,
+  "tests_run": true,
+  "nas_tested": true,
   "source_overrides": false,
-  "generated_resource_change": {
-    "field": "docker.projects[0].build_params.force_recreate",
-    "previous": true,
-    "current": false,
-    "reason": "Generated Compose lifecycle resource from the updated published toolchain"
-  },
-  "generated_ingress_check_change": "SDK-generated ingress-check binary rebuilt with SDK 0.53.21; package run-as and approval policy unchanged"
+  "generated_ingress_check_change": "SDK-generated ingress-check binary rebuilt with SDK 0.53.25; package run-as and approval policy unchanged",
+  "temp_storage_change": {
+    "previous": "tmpfs /tmp size=1073741824 mode=1777",
+    "current": "SDK disk scratch /tmp (package UID, mode 0700, emptied at each start), TMPDIR=/tmp",
+    "memory_tmpfs": []
+  }
 }
