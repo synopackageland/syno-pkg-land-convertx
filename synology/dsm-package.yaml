@@ -1,13 +1,13 @@
 schema: 2
 package: SynoPkgConvertX
 version: 0.20.0
-build: 7
+build: 8
 displayname: ConvertX
 icon: assets/icon.png
 description: Convert documents, images, audio and video between file formats
 maintainer: Emrik Östling
 metadata:
-  changelog: {"en": "Fix DSM sign-in when opening over HTTP", "zh-TW": "修正以 HTTP 開啟時的 DSM 登入", "zh-CN": "修复通过 HTTP 打开时的 DSM 登录", "ja": "HTTP で開いた際の DSM サインインを修正", "ko": "HTTP로 열 때 DSM 로그인 문제 수정", "de": "DSM-Anmeldung beim Öffnen über HTTP korrigieren", "fr": "Corriger la connexion DSM lors de l’ouverture via HTTP"}
+  changelog: {"en": "Improve page loading reliability when signing in", "zh-TW": "改善登入時頁面載入的穩定性", "zh-CN": "改善登录时页面加载的稳定性", "ja": "サインイン時のページ読み込みの安定性を改善", "ko": "로그인 시 페이지 로딩 안정성 개선", "de": "Zuverlässigkeit beim Laden von Seiten während der Anmeldung verbessern", "fr": "Améliorer la fiabilité du chargement des pages lors de la connexion", "es": "Mejorar la fiabilidad de la carga de páginas al iniciar sesión", "it": "Migliorare l’affidabilità del caricamento delle pagine durante l’accesso"}
   maintainer_url: https://github.com/C4illin/ConvertX
   distributor: Syno Package Land
   distributor_url: https://synopkgland.com/
@@ -16,7 +16,7 @@ arches: [x86_64]
 entry: app-privilege
 capabilities: {}
 compose:
-  sdk: 0.50.7
+  sdk: 0.53.21
   resource_prefix: spl-convertx-
   files: [compose.yaml]
   services:
@@ -38,7 +38,7 @@ compose:
     health: {path: /synopkgland/SynoPkgConvertX/healthcheck, status: 200}
   network: {egress: isolated}
 identity_gateway:
-  sdk: 0.50.7
+  sdk: 0.53.21
   mode: none
   access: dsm-users
   ingress: {path: /synopkgland/SynoPkgConvertX/}
