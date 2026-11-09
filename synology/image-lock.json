@@ -2,7 +2,7 @@
   "tag": "v0.20.0",
   "upstream_commit": "42224e3f1f1ad0eb6e6d2bac661a5b3f2b2a2976",
   "source_tree": "99595c59bd5f24d7ad1ba444d1a4ce55f8f473f1",
-  "build": 1,
+  "build": 8,
   "repository": "c4illin/convertx",
   "reference": "c4illin/convertx:v0.20.0@sha256:6259e0c1e063120b1ddbc6937372a83be58182b2c9dc82264f58e100907b3e51",
   "index_digest": "sha256:6259e0c1e063120b1ddbc6937372a83be58182b2c9dc82264f58e100907b3e51",

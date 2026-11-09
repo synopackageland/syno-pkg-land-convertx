@@ -1,5 +1,19 @@
 # Release notes
 
+## 0.20.0-0008: sign-in page loading
+
+Rebuilt with published SDK/App 0.53.21 and CLI 0.52.13 to improve page loading
+reliability when signing in. Concurrent asset requests share session admission
+and queue through the identity gateway. Upstream version and image digest are
+unchanged. This rebuild runs check, build, inspect comparison and privacy scans;
+unit, browser, container-runtime and device acceptance tests were not run.
+
+Offline comparison with 0.20.0-0007: permissions are unchanged,
+approval retention is `not-required`, root programs and policy changes are empty,
+and the task template is unchanged. `conf/privilege` still runs as the package
+account. The generated Compose resource changes `force_recreate` from true to
+false and the SDK ingress-check binary is rebuilt; neither adds root authority.
+
 ## 0.20.0-0005: fixed DSM path ingress
 
 The App opens at `/synopkgland/SynoPkgConvertX/` on the current DSM HTTPS origin.
