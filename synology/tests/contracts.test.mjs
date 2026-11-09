@@ -18,17 +18,26 @@ test('DSM owns the fixed path and no public gateway port is declared', () => {
 });
 test('DSM is the only login and package storage is private', () => {
   const m = parse(read('dsm-package.yaml'));
-  assert.equal(m.identity_gateway.sdk, '0.49.3');
+  assert.equal(m.identity_gateway.sdk, '0.53.25');
   assert.equal(m.identity_gateway.mode, 'none');
   assert.equal(m.identity_gateway.access, 'dsm-users');
   assert.equal(m.entry, 'app-privilege');
-  assert.equal(m.compose.sdk, '0.49.3');
+  assert.equal(m.compose.sdk, '0.53.25');
   assert.equal(m.compose.network.egress, 'isolated');
   assert.equal(m.compose.data, undefined);
   assert.ok(m.compose.services.convertx.storage_init.directories.some(d=>d.base==='/var/tmp' && d.path==='convertx'));
   const c=parse(read('compose.yaml'));
   assert.deepEqual(c.services.convertx.volumes,['data:/var/tmp']);
   assert.deepEqual(c.volumes,{data:{}});
+});
+test('temporary files use disk scratch, never a memory tmpfs', () => {
+  const m = parse(read('dsm-package.yaml'));
+  const s = parse(read('compose.yaml')).services.convertx;
+  assert.deepEqual(m.compose.services.convertx.scratch, ['/tmp']);
+  assert.equal(m.compose.services.convertx.tmpfs, undefined);
+  assert.equal(s.tmpfs, undefined);
+  assert.equal(s.environment.TMPDIR, '/tmp');
+  assert.ok(Array.isArray(s.entrypoint) && Array.isArray(s.command));
 });
 test('unauthenticated upstream cannot publish a host port or run privileged', () => {
   const {convertx:s} = parse(read('compose.yaml')).services;

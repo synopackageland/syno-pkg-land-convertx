@@ -50,7 +50,8 @@ root-oriented entrypoint is safe to invoke with PUID/PGID unset under an explici
 Compose package UID: its exec path then inherits that UID. No image rebuild,
 usermod, groupmod, chown, root initializer or App-owned login adapter is added.
 The SDK sets the real package UID/GID, drops every capability and enables
-no-new-privileges. Rootfs is read-only; a bounded 1 GiB /tmp tmpfs is writable.
+no-new-privileges. Rootfs is read-only; /tmp is SDK disk scratch (package UID, mode 0700, emptied at
+every start, `TMPDIR=/tmp`), so conversions do not use memory.
 HOME, XDG cache and XDG config live in SDK-initialized private subdirectories of /var/tmp/convertx. USER/LOGNAME name the upstream runtime context; they do not create a passwd entry or impersonate a DSM user.
 
 A private named volume is mounted on /var/tmp, the official image's sticky base.

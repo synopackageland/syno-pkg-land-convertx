@@ -1,5 +1,13 @@
 # ConvertX for DSM
 
+## 0.20.0-0009: temporary files on disk
+
+Conversion temporary files move from a 1 GiB memory tmpfs on `/tmp` to SDK disk
+scratch (`compose.services.convertx.scratch: [/tmp]`, with `TMPDIR=/tmp`): a
+package-UID-owned mode-0700 directory on the package volume, emptied at every
+container start. No memory tmpfs remains. Rebuilt with published SDK/App 0.53.25
+(executor 0.53.6) and CLI 0.52.16. Upstream version and image digest are unchanged.
+
 ## 0.20.0-0008: sign-in page loading
 
 Rebuilt with published SDK/App 0.53.21 and CLI 0.52.13 to improve page loading
@@ -63,7 +71,7 @@ not OIDC, because upstream has no OIDC/header authentication support.
 - Toolchain: CLI 0.43.0, templates 0.38.0, Go SDK/App 0.43.1.
 - No Node frontend or custom UI is shipped.
 - Nonroot package UID, all capabilities dropped, no-new-privileges, read-only
-  rootfs, isolated networks, no published upstream ports, bounded /tmp tmpfs.
+  rootfs, isolated networks, no published upstream ports, disk scratch /tmp.
 - Data: named volume data:/var/tmp; SDK-owned private subtree /var/tmp/convertx.
   No shared-folder grants or host filesystem access are required.
 - Cleanup: upstream checks every 24 hours and deletes jobs older than 24 hours.

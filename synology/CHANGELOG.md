@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.20.0-0009
+
+- en: Store temporary conversion files on disk instead of memory
+- zh-TW: 轉換用的暫存檔改存於磁碟而非記憶體
+- zh-CN: 转换用的临时文件改存于磁盘而非内存
+- ja: 変換用の一時ファイルをメモリではなくディスクに保存
+- ko: 변환 임시 파일을 메모리 대신 디스크에 저장
+- de: Temporäre Konvertierungsdateien auf der Festplatte statt im Arbeitsspeicher speichern
+- fr: Stocker les fichiers temporaires de conversion sur le disque plutôt qu’en mémoire
+- es: Guardar los archivos temporales de conversión en el disco en lugar de en la memoria
+- it: Salvare i file temporanei di conversione su disco invece che in memoria
+
+Conversion temporary files move from a 1 GiB memory tmpfs on `/tmp` to SDK disk
+scratch (`compose.services.convertx.scratch: [/tmp]`, with `TMPDIR=/tmp`): a
+package-UID-owned mode-0700 directory on the package volume, emptied at every
+container start. No memory tmpfs remains. Rebuilt with published SDK/App 0.53.25
+(executor 0.53.6) and CLI 0.52.16. Upstream version and image digest are unchanged.
+
 ## 0.20.0-0008
 
 - en: Improve page loading reliability when signing in
