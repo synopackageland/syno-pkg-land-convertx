@@ -1,5 +1,22 @@
 # Release notes
 
+## 0.20.0-0010: installation reliability
+
+Rebuilt with CLI 0.53.16. The ingress, gateway and Portal nginx reload is now
+declared only for package start and stop: INFO keeps
+`startstop_restart_services="nginx.service"` and no longer sets
+`instuninst_restart_services`. The install-time reload could collide with DSM
+`API.Info` and make Package Center show a `t.indexOf` error after installing.
+SDK, App runtime, upstream version and image are unchanged.
+
+This rebuild runs check, build, inspect comparison with 0.20.0-0009 and privacy
+scans; unit, browser, container-runtime and device acceptance tests were not run.
+
+Offline comparison with 0.20.0-0009: the only INFO change besides version and
+changelog is the removed `instuninst_restart_services`. Permissions are
+unchanged, approval retention is `not-required`, root programs and policy changes
+are empty, the task template and `conf/privilege` are unchanged.
+
 ## 0.20.0-0009: temporary files on disk
 
 Conversion temporary files move from a 1 GiB memory tmpfs on `/tmp` to SDK disk

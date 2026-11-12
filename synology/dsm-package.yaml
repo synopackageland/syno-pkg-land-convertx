@@ -1,13 +1,13 @@
 schema: 2
 package: SynoPkgConvertX
 version: 0.20.0
-build: 9
+build: 10
 displayname: ConvertX
 icon: assets/icon.png
 description: Convert documents, images, audio and video between file formats
 maintainer: Emrik Östling
 metadata:
-  changelog: {"en": "Store temporary conversion files on disk instead of memory", "zh-TW": "轉換用的暫存檔改存於磁碟而非記憶體", "zh-CN": "转换用的临时文件改存于磁盘而非内存", "ja": "変換用の一時ファイルをメモリではなくディスクに保存", "ko": "변환 임시 파일을 메모리 대신 디스크에 저장", "de": "Temporäre Konvertierungsdateien auf der Festplatte statt im Arbeitsspeicher speichern", "fr": "Stocker les fichiers temporaires de conversion sur le disque plutôt qu’en mémoire", "es": "Guardar los archivos temporales de conversión en el disco en lugar de en la memoria", "it": "Salvare i file temporanei di conversione su disco invece che in memoria"}
+  changelog: {"en": "Improve installation reliability in Package Center", "zh-TW": "提升在套件中心安裝的穩定性", "zh-CN": "提升在套件中心安装的稳定性", "ja": "パッケージセンターでのインストールの安定性を向上", "ko": "패키지 센터에서의 설치 안정성 향상", "de": "Zuverlässigkeit der Installation im Paket-Zentrum verbessern", "fr": "Améliorer la fiabilité de l’installation dans le Centre de paquets", "es": "Mejorar la fiabilidad de la instalación en el Centro de paquetes", "it": "Migliorare l’affidabilità dell’installazione nel Centro pacchetti"}
   maintainer_url: https://github.com/C4illin/ConvertX
   distributor: Syno Package Land
   distributor_url: https://synopkgland.com/
