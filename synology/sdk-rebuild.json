@@ -1,8 +1,8 @@
 {
-  "version": "0.20.0-0009",
-  "previous_version": "0.20.0-0008",
+  "version": "0.20.0-0010",
+  "previous_version": "0.20.0-0009",
   "toolchain": {
-    "cli": "0.52.16",
+    "cli": "0.53.16",
     "templates": "0.40.1",
     "sdk": "0.53.25",
     "app": "0.53.25",
@@ -13,8 +13,8 @@
   "arches": [
     "x86_64"
   ],
-  "spk": "SynoPkgConvertX-0.20.0-0009-x86_64.spk",
-  "spk_sha256": "c346d722b774a137fa4c58c64e2ec9a0738b23990bdb6c0570addfebbf65aa87",
+  "spk": "SynoPkgConvertX-0.20.0-0010-x86_64.spk",
+  "spk_sha256": "e6661b30377ea25bc1a6ecc885f0a199a46a4c6aee3b5249e2e0a0dee26e72a8",
   "checks": {
     "check": true,
     "build": true,
@@ -41,13 +41,16 @@
   "upstream_files_modified": false,
   "official_image_unchanged": true,
   "image_built_locally": false,
-  "tests_run": true,
-  "nas_tested": true,
+  "tests_run": false,
+  "nas_tested": false,
   "source_overrides": false,
-  "generated_ingress_check_change": "SDK-generated ingress-check binary rebuilt with SDK 0.53.25; package run-as and approval policy unchanged",
-  "temp_storage_change": {
-    "previous": "tmpfs /tmp size=1073741824 mode=1777",
-    "current": "SDK disk scratch /tmp (package UID, mode 0700, emptied at each start), TMPDIR=/tmp",
-    "memory_tmpfs": []
+  "info_change": {
+    "removed": [
+      "instuninst_restart_services"
+    ],
+    "kept": {
+      "startstop_restart_services": "nginx.service"
+    },
+    "reason": "CLI 0.53.16 declares the nginx reload only for start and stop"
   }
 }
